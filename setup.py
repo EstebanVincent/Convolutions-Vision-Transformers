@@ -38,10 +38,10 @@ def csv():
     df = pd.read_csv("ground_truth.csv")
     df["class"] = 0
     
-    df.loc[(df["tom"] == 1) & (df["jerry"] == 0), "class"] = 1
-    df.loc[(df["tom"] == 0) & (df["jerry"] == 1), "class"] = 2
-    df.loc[(df["tom"] == 0) & (df["jerry"] == 0), "class"] = 3
-    df.loc[(df["tom"] == 1) & (df["jerry"] == 1), "class"] = 4
+    df.loc[(df["tom"] == 1) & (df["jerry"] == 0), "class"] = 0
+    df.loc[(df["tom"] == 0) & (df["jerry"] == 1), "class"] = 1
+    df.loc[(df["tom"] == 0) & (df["jerry"] == 0), "class"] = 2
+    df.loc[(df["tom"] == 1) & (df["jerry"] == 1), "class"] = 3
 
     df.to_csv("dataset/ground_truth.csv", index=False)
 
