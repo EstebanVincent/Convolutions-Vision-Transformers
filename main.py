@@ -9,7 +9,7 @@ from torch.utils.data import Dataset, DataLoader
 from PIL import Image
 from tqdm import tqdm
 
-model = CvT(224, 3, 4)
+model = CvT(128, 3, 4)
 
 df = pd.read_csv("dataset/ground_truth.csv")
 df = df[["filename", "class"]]

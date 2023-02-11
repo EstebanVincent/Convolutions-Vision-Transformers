@@ -12,7 +12,7 @@ def load():
 
 def architecture():
     src_dir = "tom_and_jerry" #1280*720 and 854*480
-    dst_dir = "dataset/imgs"  #128*72
+    dst_dir = "dataset/imgs"  #128*128
 
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
@@ -26,7 +26,7 @@ def architecture():
 
             if os.path.isfile(src_file):
                 image = Image.open(src_file)
-                image = image.resize((128,72), Image.ANTIALIAS)
+                image = image.resize((128,128), Image.ANTIALIAS)
                 image.save(dst_file)
 
     print("Folder created successfully")
