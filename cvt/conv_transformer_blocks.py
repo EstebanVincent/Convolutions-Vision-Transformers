@@ -3,13 +3,17 @@ import torch.nn as nn
 from einops.layers.torch import Rearrange
 
 from cvt.conv_projection import ConvolutionalProjection
+
+
 class PreNorm(nn.Module):
     def __init__(self, dim, fn):
         super().__init__()
         self.norm = nn.LayerNorm(dim)
         self.fn = fn
+
     def forward(self, x, **kwargs):
         return self.fn(self.norm(x), **kwargs)
+
 
 class MLP(nn.Module):
     """
@@ -17,7 +21,8 @@ class MLP(nn.Module):
     the classification token of the final stage output 
     to predict the class.
     """
-    def __init__(self, dim, hidden_dim, dropout = 0.):
+
+    def __init__(self, dim, hidden_dim, dropout=0.):
         super().__init__()
         self.net = nn.Sequential(
             nn.Linear(dim, hidden_dim),
@@ -26,6 +31,7 @@ class MLP(nn.Module):
             nn.Linear(hidden_dim, dim),
             nn.Dropout(dropout)
         )
+
     def forward(self, x):
         return self.net(x)
 
@@ -38,11 +44,12 @@ class ConvolutionalTransformerBlocks(nn.Module):
         self.last_stage = last_stage
         for _ in range(depth):
             self.layers.append(nn.ModuleList([
-                PreNorm(dim, ConvolutionalProjection(dim, img_size, heads=heads, dim_head=dim_head, dropout=dropout, last_stage=self.last_stage)),
+                PreNorm(dim, ConvolutionalProjection(dim, img_size, heads=heads,
+                        dim_head=dim_head, dropout=dropout, last_stage=self.last_stage)),
                 PreNorm(dim, MLP(dim, mlp_dim, dropout=dropout))
             ]))
-        self.rearrange = Rearrange('b (h w) c -> b c h w', h = self.img_size, w = self.img_size)
-        
+        self.rearrange = Rearrange(
+            'b (h w) c -> b c h w', h=self.img_size, w=self.img_size)
 
     def forward(self, x):
         for attn, ff in self.layers:

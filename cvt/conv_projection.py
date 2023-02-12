@@ -2,7 +2,6 @@ import torch
 from torch import nn, einsum
 from einops import rearrange
 
-from einops.layers.torch import Rearrange
 
 class CustomConv2d(nn.Module):
     """
@@ -10,6 +9,7 @@ class CustomConv2d(nn.Module):
     Depth-wise Conv2d → BatchNorm2d → Point-wise Conv2d, and s refers
     to the convolution kernel size.
     """
+
     def __init__(self,
                  in_channels,
                  out_channels,
@@ -33,25 +33,25 @@ class CustomConv2d(nn.Module):
         x = self.bn(x)
         x = self.pointwise(x)
         return x
-    
+
 
 class ConvolutionalProjection(nn.Module):
     def __init__(self,
                  dim,
                  img_size,
-                 heads = 8,
-                 dim_head = 64,
+                 heads=8,
+                 dim_head=64,
                  kernel_size=3,
                  q_stride=1,
                  k_stride=1,
                  v_stride=1,
-                 dropout = 0.,
+                 dropout=0.,
                  last_stage=False):
 
         super().__init__()
         self.last_stage = last_stage
         self.img_size = img_size
-        inner_dim = dim_head *  heads
+        inner_dim = dim_head * heads
         project_out = not (heads == 1 and dim_head == dim)
 
         self.heads = heads
@@ -71,8 +71,10 @@ class ConvolutionalProjection(nn.Module):
         if self.last_stage:
             cls_token = x[:, 0]
             x = x[:, 1:]
-            cls_token = rearrange(cls_token.unsqueeze(1), 'b n (h d) -> b h n d', h = h)
-        x = rearrange(x, 'b (l w) n -> b n l w', l=self.img_size, w=self.img_size)
+            cls_token = rearrange(cls_token.unsqueeze(1),
+                                  'b n (h d) -> b h n d', h=h)
+        x = rearrange(x, 'b (l w) n -> b n l w',
+                      l=self.img_size, w=self.img_size)
         q = self.to_q(x)
         q = rearrange(q, 'b (h d) l w -> b h (l w) d', h=h)
 
@@ -87,12 +89,11 @@ class ConvolutionalProjection(nn.Module):
             v = torch.cat((cls_token, v), dim=2)
             k = torch.cat((cls_token, k), dim=2)
 
-
         dots = einsum('b h i d, b h j d -> b h i j', q, k) * self.scale
 
         attn = dots.softmax(dim=-1)
 
         out = einsum('b h i j, b h j d -> b h i d', attn, v)
         out = rearrange(out, 'b h n d -> b n (h d)')
-        out =  self.to_out(out)
+        out = self.to_out(out)
         return out
