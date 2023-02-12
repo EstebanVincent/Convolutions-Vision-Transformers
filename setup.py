@@ -36,12 +36,11 @@ def architecture():
 
 def csv():
     df = pd.read_csv("ground_truth.csv")
-    df["class"] = 0
-    
-    df.loc[(df["tom"] == 1) & (df["jerry"] == 0), "class"] = 0
-    df.loc[(df["tom"] == 0) & (df["jerry"] == 1), "class"] = 1
-    df.loc[(df["tom"] == 0) & (df["jerry"] == 0), "class"] = 2
-    df.loc[(df["tom"] == 1) & (df["jerry"] == 1), "class"] = 3
+    df["class"] = 2 * df["tom"] + df["jerry"]
+    # (tom = 0, jerry = 0) -> class = 0
+    # (tom = 0, jerry = 1) -> class = 1
+    # (tom = 1, jerry = 0) -> class = 2
+    # (tom = 1, jerry = 1) -> class = 3
 
     df.to_csv("dataset/ground_truth.csv", index=False)
 
