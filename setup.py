@@ -11,9 +11,9 @@ def load():
         "balabaskar/tom-and-jerry-image-classification", path='./', unzip=True)
 
 
-def architecture(size):
-    src_dir = "tom_and_jerry"  # 1280*720
-    dst_dir = "dataset/imgs"  # 224*224
+def architecture():
+    src_dir = "tom_and_jerry"  # 1280*720 and 854*480
+    dst_dir = "dataset/imgs"  # 128*128
 
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
@@ -38,12 +38,11 @@ def architecture(size):
 
 def csv():
     df = pd.read_csv("ground_truth.csv")
-    df["class"] = 0
-
-    df.loc[(df["tom"] == 1) & (df["jerry"] == 0), "class"] = 0
-    df.loc[(df["tom"] == 0) & (df["jerry"] == 1), "class"] = 1
-    df.loc[(df["tom"] == 0) & (df["jerry"] == 0), "class"] = 2
-    df.loc[(df["tom"] == 1) & (df["jerry"] == 1), "class"] = 3
+    df["class"] = 2 * df["tom"] + df["jerry"]
+    # (tom = 0, jerry = 0) -> class = 0
+    # (tom = 0, jerry = 1) -> class = 1
+    # (tom = 1, jerry = 0) -> class = 2
+    # (tom = 1, jerry = 1) -> class = 3
 
     df.to_csv("dataset/ground_truth.csv", index=False)
 

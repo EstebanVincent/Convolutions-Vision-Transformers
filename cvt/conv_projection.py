@@ -10,21 +10,27 @@ class CustomConv2d(nn.Module):
     to the convolution kernel size.
     """
 
-    def __init__(self,
-                 in_channels,
-                 out_channels,
-                 kernel_size,
-                 stride=1,
-                 padding=0,
-                 dilation=1,):
+    def __init__(
+        self,
+        in_channels,
+        out_channels,
+        kernel_size,
+        stride=1,
+        padding=0,
+        dilation=1,
+    ):
+
         super(CustomConv2d, self).__init__()
-        self.depthwise = nn.Conv2d(in_channels,
-                                   in_channels,
-                                   kernel_size=kernel_size,
-                                   stride=stride,
-                                   padding=padding,
-                                   dilation=dilation,
-                                   groups=in_channels)
+        self.depthwise = nn.Conv2d(
+            in_channels,
+            in_channels,
+            kernel_size=kernel_size,
+            stride=stride,
+            padding=padding,
+            dilation=dilation,
+            groups=in_channels
+        )
+
         self.bn = nn.BatchNorm2d(in_channels)
         self.pointwise = nn.Conv2d(in_channels, out_channels, kernel_size=1)
 
@@ -36,17 +42,19 @@ class CustomConv2d(nn.Module):
 
 
 class ConvolutionalProjection(nn.Module):
-    def __init__(self,
-                 dim,
-                 img_size,
-                 heads=8,
-                 dim_head=64,
-                 kernel_size=3,
-                 q_stride=1,
-                 k_stride=1,
-                 v_stride=1,
-                 dropout=0.,
-                 last_stage=False):
+    def __init__(
+        self,
+        dim,
+        img_size,
+        heads=8,
+        dim_head=64,
+        kernel_size=3,
+        q_stride=1,
+        k_stride=1,
+        v_stride=1,
+        dropout=0.,
+        last_stage=False
+    ):
 
         super().__init__()
         self.last_stage = last_stage
