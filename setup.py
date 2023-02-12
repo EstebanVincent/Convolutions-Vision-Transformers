@@ -11,7 +11,7 @@ def load():
         "balabaskar/tom-and-jerry-image-classification", path='./', unzip=True)
 
 
-def architecture():
+def architecture(size):
     src_dir = "tom_and_jerry"  # 1280*720 and 854*480
     dst_dir = "dataset/imgs"  # 128*128
 
