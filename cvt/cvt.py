@@ -5,27 +5,34 @@ from einops import repeat
 from cvt.conv_token_embedding import ConvolutionalTokenEmbedding
 from cvt.conv_transformer_blocks import ConvolutionalTransformerBlocks
 
+
 class CvT(nn.Module):
     def __init__(
         self,
-        img_size,               #Integer, height and width of the image.
-        in_channels,            #Integer, number of channels of the input image.    
-        num_classes,            #Integer, number of classes to classify the images into.
-        dim=64,                 #Integer, dimensionality of the hidden state for the self-attention mechanism in the transformer block.
-        kernels=[7, 3, 3],      #List of Integers, kernel size of the Convolutional Embedding layer at each stage
-        strides=[4, 2, 2],      #List of Integers, stride size of the Convolutional Embedding layer at each stage
-        heads=[1, 3, 6],        #List of Integers, number of heads in the Multi-Head Attention for each stage
-        depth = [1, 2, 10],     #List of Integers, number of Transformer blocks in each stage of the model
-        pool='cls',             #String, pooling method to use after the final stage of the model
-                                #The possible values are 
-                                #'cls'  (pooling over the first token of the sequence)
-                                #'mean' (mean pooling over the entire sequence)
-        dropout=0.,             #Float, dropout rate to use after each transformer block
-        scale_MLP=4             #Integer, scaling factor for the dimensionality of the MLP in the Self-Attention Mechanism
+        img_size,  # Integer, height and width of the image.
+        in_channels,  # Integer, number of channels of the input image.
+        num_classes,  # Integer, number of classes to classify the images into.
+        # Integer, dimensionality of the hidden state for the self-attention mechanism in the transformer block.
+        dim=64,
+        # List of Integers, kernel size of the Convolutional Embedding layer at each stage
+        kernels=[7, 3, 3],
+        # List of Integers, stride size of the Convolutional Embedding layer at each stage
+        strides=[4, 2, 2],
+        # List of Integers, number of heads in the Multi-Head Attention for each stage
+        heads=[1, 3, 6],
+        # List of Integers, number of Transformer blocks in each stage of the model
+        depth=[1, 2, 10],
+        pool='cls',  # String, pooling method to use after the final stage of the model
+        # The possible values are
+        # 'cls'  (pooling over the first token of the sequence)
+        # 'mean' (mean pooling over the entire sequence)
+        dropout=0.,  # Float, dropout rate to use after each transformer block
+        scale_MLP=4  # Integer, scaling factor for the dimensionality of the MLP in the Self-Attention Mechanism
     ):
 
         super().__init__()
-        assert pool in {'cls', 'mean'}, 'pool type must be either cls (cls token) or mean (mean pooling)'
+        assert pool in {
+            'cls', 'mean'}, 'pool type must be either cls (cls token) or mean (mean pooling)'
         self.pool = pool
         self.dim = dim
 
@@ -98,7 +105,6 @@ class CvT(nn.Module):
             dropout=dropout,
             last_stage=True
         )
-
         self.cls_token = nn.Parameter(torch.randn(1, 1, dim))
 
         self.mlp_head = nn.Sequential(

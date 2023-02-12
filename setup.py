@@ -5,14 +5,15 @@ import shutil
 import pandas as pd
 
 
-
 def load():
     kaggle.api.authenticate()
-    kaggle.api.dataset_download_files("balabaskar/tom-and-jerry-image-classification", path='./', unzip=True)
+    kaggle.api.dataset_download_files(
+        "balabaskar/tom-and-jerry-image-classification", path='./', unzip=True)
+
 
 def architecture():
-    src_dir = "tom_and_jerry" #1280*720 and 854*480
-    dst_dir = "dataset/imgs"  #128*128
+    src_dir = "tom_and_jerry"  # 1280*720 and 854*480
+    dst_dir = "dataset/imgs"  # 128*128
 
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
@@ -26,13 +27,14 @@ def architecture():
 
             if os.path.isfile(src_file):
                 image = Image.open(src_file)
-                image = image.resize((128,128), Image.ANTIALIAS)
+                image = image.resize((size, size), Image.ANTIALIAS)
                 image.save(dst_file)
 
     print("Folder created successfully")
 
     shutil.rmtree(src_dir)
     print("Folder deleted successfully")
+
 
 def csv():
     df = pd.read_csv("ground_truth.csv")
@@ -51,11 +53,7 @@ def csv():
     print("File deleted successfully")
 
 
-
-def setup():
-    print("Loading data from Kaggle...")
+def setup(size=224):
     load()
-    architecture()
+    architecture(size)
     csv()
-
-setup()
