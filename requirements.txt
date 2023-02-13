@@ -1,2 +1,12 @@
 scikit-learn
 einops
+kaggle
+pillow
+pandas
+torch
+sklearn
+tqdm
+argparse
+numpy
+matplotlib
+seaborn
