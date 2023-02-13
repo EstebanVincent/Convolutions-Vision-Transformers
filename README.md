@@ -6,9 +6,7 @@ images from the cartoon Tom & Jerry](https://www.kaggle.com/datasets/balabaskar/
 
 ![Pipeline](figures/pipeline.png)
 
-
-
-The project can be run directly on Google Colab or locally by launching the notebook. Alternatively, it can be run using the main.py script by passing in arguments.
+The project can be run directly on Google Colab or locally by launching the notebook. Alternatively, it can be run using the main.py script by passing in arguments.<br>
 <a target="_blank" href="https://colab.research.google.com/github/EstebanVincent/Convolutions-Vision-Transformers/blob/main/Submission.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
@@ -53,14 +51,14 @@ To evaluate the model, you can run the following command:
 python main.py --evaluate --model_name $model_name --batch_size $batch_size --output_dir $output_dir --size $size
 ```
 Where:
-- model_name: name of the model to train (default: 'cvt')
+- model_name: name of the model to evaluate (default: 'cvt')
 - batch_size: batch size (default: 64)
 - output_dir: directory where is save the model (default: 'models')
 - size: size of the images in the dataset (default: 128)
 
 
 # Links
-Implementation of [CvT: Introducing Convolutions to Vision Transformers](https://arxiv.org/abs/2103.15808)
+Implementation of [CvT: Introducing Convolutions to Vision Transformers](https://arxiv.org/abs/2103.15808)<br>
 Dataset used: [Tom and Jerry Image classification | Kaggle](https://www.kaggle.com/datasets/balabaskar/tom-and-jerry-image-classification)
 
 University of Rome, La Sapienza. Artificial Intelligence and Robotics. Neural Networks Course A.Y. 2022/23
