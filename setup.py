@@ -12,8 +12,8 @@ def load():
 
 
 def architecture(size):
-    src_dir = "tom_and_jerry"  # 1280*720 and 854*480
-    dst_dir = "dataset/imgs"  # 128*128
+    src_dir = "tom_and_jerry"   # 1280*720 and 854*480
+    dst_dir = "dataset/imgs"    # size*size
 
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
@@ -53,7 +53,7 @@ def csv():
     print("File deleted successfully")
 
 
-def setup(size=224):
+def setup(size=128):
     load()
     architecture(size)
     csv()
