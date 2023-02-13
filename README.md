@@ -2,7 +2,7 @@
 
 Implementation of [CvT: Introducing Convolutions to Vision Transformers](https://arxiv.org/abs/2103.15808)
 
-![Pipeline](figures/pipeline.svg)
+![Pipeline](figures/pipeline.png)
 
 Dataset used: [Tom and Jerry Image classification | Kaggle](https://www.kaggle.com/datasets/balabaskar/tom-and-jerry-image-classification)
 
