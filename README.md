@@ -6,6 +6,8 @@ images from the cartoon Tom & Jerry](https://www.kaggle.com/datasets/balabaskar/
 
 ![Pipeline](figures/pipeline.png)
 
+# Usage
+
 The project can be run directly on Google Colab or locally by launching the notebook. Alternatively, it can be run using the main.py script by passing in arguments.<br>
 <a target="_blank" href="https://colab.research.google.com/github/EstebanVincent/Convolutions-Vision-Transformers/blob/main/Submission.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
